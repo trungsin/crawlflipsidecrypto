@@ -31,7 +31,6 @@ const scraperObject = {
             await page.waitForSelector('.css-wob7jz');
             await page.click('.css-wob7jz');
             await delay(5000);  
-            await page.waitForSelector('.css-hw89oo');
             await page.waitForSelector('.css-hw89oo', {timeout: 30000});
             console.log('download data dim_labels from record %d00001 to record %d00000', i, i+1);
             await Promise.all([
