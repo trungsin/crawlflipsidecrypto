@@ -1,5 +1,5 @@
-// ./book-scraper/pageController.js
-const pageScraper = require('./pageScraper');
+// ./controller/pageController.js
+const pageScraper = require('../active/pageScraper');
 async function scrapeAll(browserInstance){
     let browser;
     try{

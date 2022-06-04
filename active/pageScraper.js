@@ -1,4 +1,3 @@
-//const {TimeoutError} = require('puppeteer/Errors');
 
 const scraperObject = {
     url: 'https://app.flipsidecrypto.com/auth/login',
@@ -15,31 +14,41 @@ const scraperObject = {
         //await page.click('.chakra-linkbox__overlay');
         await page.waitForSelector('.chakra-linkbox__overlay');
         await page.click('.chakra-linkbox__overlay');
-        await page.waitForSelector('.css-hw89oo');
-        //await page.click("button[class='css-k7jyqv']");
-        console.log("download data dim_labels from record 1 to record 100000")
-        await Promise.all([
-            await page.click('.css-k7jyqv')
-          ]);
-        let i=1  
-        while (i <= 208) {
+        var argv = process.argv.slice(2);
+        let i=0;
+        console.log(argv);
+        if(argv.length>0)
+           i=argv[1];
+        while (true) {
+            //i=207;
             await page.waitForSelector('.css-1ww5jjb');
             const inputValue = await page.$('.css-1ww5jjb');
             clear(page,'.css-1ww5jjb');
-
             await page.type('input[class="chakra-input css-1ww5jjb"]', i+'00000', { delay: 100 }); // Types slower, like a user
             await page.waitForSelector('.css-wob7jz');
             await page.click('.css-wob7jz');
-            await delay(5000);  
-            await page.waitForSelector('.css-hw89oo', {timeout: 30000});
-            console.log('download data dim_labels from record %d00001 to record %d00000', i, i+1);
-            await Promise.all([
-                await page.click('.css-k7jyqv')
-              ]);    
-            i++;    
+            await page.waitForSelector('.css-hw89oo', {timeout: 60000});
+            await page.waitForSelector('.css-e1zzir');
+            const dataRecord = await page.$eval('.css-e1zzir > strong', el => el.innerText);
+            const countRecord = dataRecord.split(' ')[0];
+            console.log('download data dim_labels from record %d00001 to record %d', i, countRecord+100000);
+            console.log('succesfully download the csv result.here is the first 10 line')
+            const data = await page.evaluate(() => {
+                const tds = Array.from(document.querySelectorAll('table tr td'))
+                return tds.map(td => td.innerText)
+            });
+            console.log(data);
+            await page.waitForSelector('.css-k7jyqv');
+            await  page.click('.css-k7jyqv')
+            //  ]);
+            if(argv.length>0)
+                break;
+            if(countRecord <100000)
+                break;
+            i=i++;  
         }
         console.log("download finished!");
-        await browser.close();
+        //await browser.close();
 
 
 
@@ -47,14 +56,10 @@ const scraperObject = {
 }
 
 module.exports = scraperObject;
+
 async function clear(page, selector) {
     await page.evaluate(selector => {
       document.querySelector(selector).value = "";
     }, selector);
 }
-function delay(time) {
-    return new Promise(function(resolve) { 
-        setTimeout(resolve, time)
-    });
- }
  

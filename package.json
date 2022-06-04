@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js" 
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "^14.2.1"
+    "puppeteer": "^14.2.1",
+    "yargs": "^17.5.1"
   }
 }

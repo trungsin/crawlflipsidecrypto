@@ -13,8 +13,8 @@
 // })();
 // ./book-scraper/index.js
 
-const browserObject = require('./browser');
-const scraperController = require('./pageController');
+const browserObject = require('./lib/browser');
+const scraperController = require('./controller/pageController');
 
 //Start the browser and create a browser instance
 let browserInstance = browserObject.startBrowser();
