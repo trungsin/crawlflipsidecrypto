@@ -12,7 +12,6 @@
 //   await browser.close();
 // })();
 // ./book-scraper/index.js
-
 const browserObject = require('./lib/browser');
 const scraperController = require('./controller/pageController');
 
